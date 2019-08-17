@@ -31,4 +31,9 @@ public class TestUtils {
             System.out.println("Failed to deleteFile file: " + file);
         }
     }
+
+    public static File loadFileFromResource(String fileName) {
+        ClassLoader classLoader = TestUtils.class.getClassLoader();
+        return new File(classLoader.getResource(fileName).getFile());
+    }
 }

@@ -1,5 +1,8 @@
 package com.mzweigert.expressions_resolver.service;
 
+import org.w3c.dom.Element;
+
+import javax.xml.bind.Unmarshaller;
 import java.io.*;
 import java.util.Collection;
 import java.util.Optional;
@@ -26,7 +29,6 @@ public class FilesProcessingTask implements Callable<Void> {
         int dotIndex = name.lastIndexOf('.');
         String outputFileName = name.substring(0, dotIndex)  + "_result" + name.substring(dotIndex);
         File outputFile = new File(outputDir, outputFileName);
-
         try {
             if (outputFile.createNewFile()) {
                 return Optional.of(outputFile);
