@@ -1,6 +1,7 @@
 package com.mzweigert.expressions_resolver.serialization;
 
 import com.mzweigert.expressions_resolver.TestUtilsIT;
+import com.mzweigert.expressions_resolver.serialization.model.Expression;
 import com.mzweigert.expressions_resolver.serialization.model.input.*;
 import org.junit.Test;
 
@@ -9,7 +10,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
-public class ExpressionsSerializationIT {
+public class ExpressionsUnmarshallingSerializationIT {
 
     @Test
     public void givenSimpleAddition_whenUnmarshall_thenSuccessUnmarshalling() {

@@ -1,4 +1,4 @@
-package com.mzweigert.expressions_resolver.serialization.model.input;
+package com.mzweigert.expressions_resolver.serialization.model;
 
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlRootElement;

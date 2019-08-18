@@ -1,5 +1,6 @@
 package com.mzweigert.expressions_resolver;
 
+import com.mzweigert.expressions_resolver.serialization.model.Expression;
 import com.mzweigert.expressions_resolver.serialization.model.input.*;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 

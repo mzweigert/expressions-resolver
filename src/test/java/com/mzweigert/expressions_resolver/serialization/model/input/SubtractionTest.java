@@ -1,7 +1,7 @@
 package com.mzweigert.expressions_resolver.serialization.model.input;
 
 import com.mzweigert.expressions_resolver.OperationType;
-import org.assertj.core.data.Percentage;
+import com.mzweigert.expressions_resolver.serialization.model.Expression;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -11,7 +11,6 @@ import java.util.Optional;
 import static com.mzweigert.expressions_resolver.TestUtils.generateComplex;
 import static com.mzweigert.expressions_resolver.TestUtils.generateSimple;
 import static org.assertj.core.api.Java6Assertions.assertThat;
-import static org.junit.Assert.*;
 
 public class SubtractionTest {
 
