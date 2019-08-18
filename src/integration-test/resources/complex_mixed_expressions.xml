@@ -3,26 +3,26 @@
     <multiplication id="1" complex="true">
         <factor>
             <addition>
-                <item>2</item>
-                <item>3</item>
+                <item>2.124</item>
+                <item>3.346</item>
             </addition>
         </factor>
         <factor>
             <division>
-                <dividend>6</dividend>
-                <divisor>3</divisor>
+                <dividend>6.234</dividend>
+                <divisor>3.666</divisor>
             </division>
         </factor>
         <factor>
             <multiplication>
-                <factor>3</factor>
-                <factor>4</factor>
+                <factor>3.234</factor>
+                <factor>4.346</factor>
             </multiplication>
         </factor>
         <factor>
             <subtraction>
-                <minuend>4</minuend>
-                <subtrahend>2</subtrahend>
+                <minuend>4.563</minuend>
+                <subtrahend>2.451</subtrahend>
             </subtraction>
         </factor>
     </multiplication>
