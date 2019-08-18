@@ -3,6 +3,8 @@ package com.mzweigert.expressions_resolver.serialization.model.input;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Optional;
 
 @XmlTransient
 public abstract class Expression implements Serializable {
@@ -18,4 +20,5 @@ public abstract class Expression implements Serializable {
         this.id = id;
     }
 
+    public abstract Optional<BigDecimal> calculate();
 }
