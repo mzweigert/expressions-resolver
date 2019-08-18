@@ -23,8 +23,8 @@
 
 ### Maven template
 target/
-output/
-input/
+.output/
+.input/
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
