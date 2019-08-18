@@ -2,7 +2,10 @@ package com.mzweigert.expressions_resolver.service;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -51,7 +54,7 @@ public class ExpressionsResolverService {
 
     public void resolve(File inputDir, File outputDir) {
         String[] fileNames = inputDir.list();
-        if(fileNames == null || fileNames.length <= 0) {
+        if (fileNames == null || fileNames.length <= 0) {
             System.out.println("No files in input dir");
             return;
         }

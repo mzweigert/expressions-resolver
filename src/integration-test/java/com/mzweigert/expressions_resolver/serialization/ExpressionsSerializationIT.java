@@ -1,6 +1,6 @@
 package com.mzweigert.expressions_resolver.serialization;
 
-import com.mzweigert.expressions_resolver.TestUtils;
+import com.mzweigert.expressions_resolver.TestUtilsIT;
 import com.mzweigert.expressions_resolver.serialization.model.input.*;
 import org.junit.Test;
 
@@ -9,12 +9,12 @@ import java.util.List;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
-public class SimpleUnmarshallingTest {
+public class ExpressionsSerializationIT {
 
     @Test
     public void givenSimpleAddition_whenUnmarshall_thenSuccessUnmarshalling() {
         //GIVEN
-        File file = TestUtils.loadFileFromResource("simple_addition.xml");
+        File file = TestUtilsIT.loadFileFromResource("simple_addition.xml");
 
         //WHEN
         List<Expression> result = new ExpressionsSerialization().unmarshall(file);
@@ -31,7 +31,7 @@ public class SimpleUnmarshallingTest {
     @Test
     public void givenSimpleSubtraction_whenUnmarshall_thenSuccessUnmarshalling() {
         //GIVEN
-        File file = TestUtils.loadFileFromResource("simple_subtraction.xml");
+        File file = TestUtilsIT.loadFileFromResource("simple_subtraction.xml");
 
         //WHEN
         List<Expression> result = new ExpressionsSerialization().unmarshall(file);
@@ -53,7 +53,7 @@ public class SimpleUnmarshallingTest {
     @Test
     public void givenSimpleMultiplication_whenUnmarshall_thenSuccessUnmarshalling() {
         //GIVEN
-        File file = TestUtils.loadFileFromResource("simple_multiplication.xml");
+        File file = TestUtilsIT.loadFileFromResource("simple_multiplication.xml");
 
         //WHEN
         List<Expression> result = new ExpressionsSerialization().unmarshall(file);
@@ -71,7 +71,7 @@ public class SimpleUnmarshallingTest {
     @Test
     public void givenSimpleDivision_whenUnmarshall_thenSuccessUnmarshalling() {
         //GIVEN
-        File file = TestUtils.loadFileFromResource("simple_division.xml");
+        File file = TestUtilsIT.loadFileFromResource("simple_division.xml");
 
         //WHEN
         List<Expression> result = new ExpressionsSerialization().unmarshall(file);
@@ -94,7 +94,7 @@ public class SimpleUnmarshallingTest {
     @Test
     public void givenSimpleMixed_whenUnmarshall_thenSuccessUnmarshalling() {
         //GIVEN
-        File file = TestUtils.loadFileFromResource("simple_mixed.xml");
+        File file = TestUtilsIT.loadFileFromResource("simple_mixed.xml");
 
         //WHEN
         List<Expression> result = new ExpressionsSerialization().unmarshall(file);
@@ -107,5 +107,26 @@ public class SimpleUnmarshallingTest {
         assertThat(result.get(2)).isInstanceOf(Multiplication.class);
         assertThat(result.get(3)).isInstanceOf(Division.class);
 
+    }
+
+    @Test
+    public void givenComplexMixedExpressions_whenUnmarshall_thenSuccessUnmarshalling() {
+        //GIVEN
+        File file = TestUtilsIT.loadFileFromResource("complex_mixed_expressions.xml");
+
+        //WHEN
+        List<Expression> result = new ExpressionsSerialization().unmarshall(file);
+
+        //THEN
+        assertThat(result).isNotEmpty();
+        Expression expression = result.get(0);
+        assertThat(expression).isInstanceOf(Multiplication.class);
+
+        Multiplication main = (Multiplication) expression;
+
+        assertThat(main.getFactors().get(0).extract().get()).isInstanceOf(Addition.class);
+        assertThat(main.getFactors().get(1).extract().get()).isInstanceOf(Division.class);
+        assertThat(main.getFactors().get(2).extract().get()).isInstanceOf(Multiplication.class);
+        assertThat(main.getFactors().get(3).extract().get()).isInstanceOf(Subtraction.class);
     }
 }

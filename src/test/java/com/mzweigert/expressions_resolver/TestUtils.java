@@ -33,7 +33,7 @@ public class TestUtils {
     }
 
     public static File loadFileFromResource(String fileName) {
-        ClassLoader classLoader = TestUtils.class.getClassLoader();
+        ClassLoader classLoader = TestUtilsIT.class.getClassLoader();
         return new File(classLoader.getResource(fileName).getFile());
     }
 }

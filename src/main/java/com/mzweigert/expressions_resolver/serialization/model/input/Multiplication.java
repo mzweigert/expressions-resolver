@@ -18,5 +18,4 @@ public class Multiplication extends Expression {
         this.factors = factors;
     }
 
-
 }

@@ -9,7 +9,7 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.transform.stream.StreamSource;
-import java.io.*;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +32,7 @@ public class ExpressionsSerialization {
             XMLInputFactory xif = XMLInputFactory.newFactory();
             XMLStreamReader xsr = xif.createXMLStreamReader(new StreamSource(file));
             xsr = xif.createFilteredReader(xsr, reader -> {
-                if(reader.getEventType() == XMLStreamReader.CHARACTERS) {
+                if (reader.getEventType() == XMLStreamReader.CHARACTERS) {
                     return reader.getText().trim().length() > 0;
                 }
                 return true;

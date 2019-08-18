@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<expressions>
+    <multiplication id="1" complex="true">
+        <factor>
+            <addition>
+                <item>2</item>
+                <item>3</item>
+            </addition>
+        </factor>
+        <factor>
+            <division>
+                <dividend>6</dividend>
+                <divisor>3</divisor>
+            </division>
+        </factor>
+        <factor>
+            <multiplication>
+                <factor>3</factor>
+                <factor>4</factor>
+            </multiplication>
+        </factor>
+        <factor>
+            <subtraction>
+                <minuend>4</minuend>
+                <subtrahend>2</subtrahend>
+            </subtraction>
+        </factor>
+    </multiplication>
+</expressions>

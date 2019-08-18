@@ -13,7 +13,7 @@ public class Runner {
     }
 
     public static void main(String[] args) {
-        if(args.length != 2) {
+        if (args.length != 2) {
             System.out.println("No input and output folders given in args!");
         } else {
             ExpressionsResolverService fileIOService = new ExpressionsResolverService();
@@ -28,15 +28,15 @@ public class Runner {
         File outputDir = new File(outputFolder);
         boolean outputDirValid = checkDirectory(outputDir, true);
 
-        if(inputDirValid && outputDirValid){
+        if (inputDirValid && outputDirValid) {
             expressionsResolverService.resolve(inputDir, outputDir);
         }
     }
 
     private boolean checkDirectory(File dir, boolean createIfNotExists) {
-        if(!dir.exists() && createIfNotExists) {
+        if (!dir.exists() && createIfNotExists) {
             dir.mkdir();
-        } else if(!dir.isDirectory()) {
+        } else if (!dir.isDirectory()) {
             System.out.println(dir.getName() + " is not a folder!");
             return false;
         }

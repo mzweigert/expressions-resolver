@@ -11,7 +11,6 @@ import org.mockito.internal.util.reflection.Whitebox;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 
 import static org.mockito.Mockito.*;
