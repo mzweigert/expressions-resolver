@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:element name="expressions">
+        <xs:complexType>
+            <xs:choice maxOccurs="unbounded">
+                <xs:group ref="expressionGroup"/>
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+    <xs:group name="expressionGroup">
+        <xs:choice>
+            <xs:element ref="addition"/>
+            <xs:element ref="subtraction"/>
+            <xs:element ref="multiplication"/>
+            <xs:element ref="division"/>
+        </xs:choice>
+    </xs:group>
+    <xs:element name="addition">
+        <xs:complexType>
+            <xs:sequence minOccurs="2" maxOccurs="unbounded">
+                <xs:element name="item">
+                    <xs:complexType mixed="true">
+                        <xs:group ref="expressionGroup" minOccurs="0"/>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+            <xs:attribute name="complex" type="xs:boolean"/>
+            <xs:attribute name="id" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="subtraction">
+        <xs:complexType>
+            <xs:all>
+                <xs:element name="minuend">
+                    <xs:complexType mixed="true">
+                        <xs:group ref="expressionGroup" minOccurs="0"/>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="subtrahend">
+                    <xs:complexType mixed="true">
+                        <xs:group ref="expressionGroup" minOccurs="0"/>
+                    </xs:complexType>
+                </xs:element>
+            </xs:all>
+            <xs:attribute name="complex" type="xs:boolean"/>
+            <xs:attribute name="id" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="multiplication">
+        <xs:complexType>
+            <xs:sequence minOccurs="2" maxOccurs="unbounded">
+                <xs:element name="factor">
+                    <xs:complexType mixed="true">
+                        <xs:group ref="expressionGroup" minOccurs="0"/>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+            <xs:attribute name="complex" type="xs:boolean"/>
+            <xs:attribute name="id" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="division">
+        <xs:complexType>
+            <xs:all>
+                <xs:element name="dividend">
+                    <xs:complexType mixed="true">
+                        <xs:group ref="expressionGroup" minOccurs="0"/>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="divisor">
+                    <xs:complexType mixed="true">
+                        <xs:group ref="expressionGroup" minOccurs="0"/>
+                    </xs:complexType>
+                </xs:element>
+            </xs:all>
+            <xs:attribute name="complex" type="xs:boolean"/>
+            <xs:attribute name="id" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
