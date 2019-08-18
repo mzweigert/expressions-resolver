@@ -29,6 +29,15 @@ public class DivisionTest {
         assertThat(calculate.get().setScale(2, RoundingMode.HALF_DOWN)).isEqualTo(expected);
     }
 
+    @Test(expected = ArithmeticException.class)
+    public void calculateSimpleDivisionByZero_throwException() throws Exception {
+
+        Expression division = generateSimple(
+                OperationType.DIVISION, new BigDecimal("10"), BigDecimal.ZERO);
+
+        division.calculate();
+    }
+
     @Test
     public void calculateComplex() throws IllegalAccessException {
         // 2.5 * 1.72 = 4.3

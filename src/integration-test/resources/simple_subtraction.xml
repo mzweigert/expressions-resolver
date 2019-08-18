@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <expressions>
     <subtraction id="2">
-        <minuend>3</minuend>
-        <subtrahend>2</subtrahend>
+        <minuend>3.33</minuend>
+        <subtrahend>2.22</subtrahend>
     </subtraction>
 </expressions>
