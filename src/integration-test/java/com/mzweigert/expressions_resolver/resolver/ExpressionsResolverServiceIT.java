@@ -1,4 +1,4 @@
-package com.mzweigert.expressions_resolver.service;
+package com.mzweigert.expressions_resolver.resolver;
 
 import com.mzweigert.expressions_resolver.TestUtilsIT;
 import com.mzweigert.expressions_resolver.serialization.SerializationType;

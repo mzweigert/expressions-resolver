@@ -26,9 +26,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.Callable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class XMLExpressionsSerializationService implements ExpressionsSerializationService {
+
+    private static final Logger logger = Logger.getAnonymousLogger();
 
     private static final Class[] CONTEXT_CLASSES = {
             Expressions.class, Expression.class, NestedExpression.class, Result.class,
@@ -43,7 +47,7 @@ public class XMLExpressionsSerializationService implements ExpressionsSerializat
             this.unmarshaller = initUnmarshaller(jaxbContext);
             this.marshaller = initMarshaller(jaxbContext);
         } catch (SAXException | JAXBException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
     }
 
@@ -59,7 +63,6 @@ public class XMLExpressionsSerializationService implements ExpressionsSerializat
 
     private ThreadLocal<Unmarshaller> initUnmarshaller(JAXBContext jaxbContext) throws SAXException {
         Optional<Schema> inputSchema = tryFindSchema("expressions.xsd");
-
         return ThreadLocal.withInitial(() -> safe(() -> {
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
             inputSchema.ifPresent(unmarshaller::setSchema);
@@ -81,12 +84,13 @@ public class XMLExpressionsSerializationService implements ExpressionsSerializat
         SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         URL resource = getClass().getClassLoader().getResource(schemaFileName);
         if (resource == null) {
+            logger.warning("Schema " + schemaFileName + " not found!");
             return Optional.empty();
         }
         File schema = new File(resource.getFile());
         if (!schema.exists()) {
             sf.newSchema(schema);
-            System.out.println("Schema " + schema.getName() + " not found!");
+            logger.warning("Schema " + schema.getName() + " not found!");
             return Optional.empty();
         }
         return Optional.of(sf.newSchema(schema));

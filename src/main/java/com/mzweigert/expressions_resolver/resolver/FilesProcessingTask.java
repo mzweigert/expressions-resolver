@@ -1,4 +1,4 @@
-package com.mzweigert.expressions_resolver.service;
+package com.mzweigert.expressions_resolver.resolver;
 
 import com.mzweigert.expressions_resolver.serialization.ExpressionUnmarshallException;
 import com.mzweigert.expressions_resolver.serialization.ExpressionsSerializationService;
@@ -7,17 +7,21 @@ import com.mzweigert.expressions_resolver.serialization.model.Expression;
 import javax.xml.bind.JAXBException;
 import java.io.File;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class FilesProcessingTask implements Runnable {
+
+    private static final Logger logger = Logger.getAnonymousLogger();
 
     private final Collection<File> filesToProcess;
     private final File outputDir;
     private final ExpressionsSerializationService serializationService;
     private final FileManager fileManager;
 
-    public FilesProcessingTask(Collection<File> filesToProcess, File outputDir,
-                               ExpressionsSerializationService serializationService) {
+    FilesProcessingTask(Collection<File> filesToProcess, File outputDir,
+                        ExpressionsSerializationService serializationService) {
         this.filesToProcess = filesToProcess;
         this.outputDir = outputDir;
         this.serializationService = serializationService;
@@ -40,7 +44,7 @@ public class FilesProcessingTask implements Runnable {
             serializationService.marshall(results, outputFile.get());
 
         } catch (JAXBException e) {
-            System.out.println(e.toString());
+            logger.log(Level.SEVERE, e.toString());
             fileManager.saveErrorToFile(e, outputFile.get());
         }
     }

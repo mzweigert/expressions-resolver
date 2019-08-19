@@ -1,4 +1,4 @@
-package com.mzweigert.expressions_resolver.service;
+package com.mzweigert.expressions_resolver.resolver;
 
 import javax.xml.bind.JAXBException;
 import java.io.BufferedWriter;
@@ -6,15 +6,19 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 class FileManager {
+
+    private static final Logger logger = Logger.getAnonymousLogger();
 
     void saveErrorToFile(JAXBException error, File file) {
         try(FileWriter fileWriter = new FileWriter(file);
             BufferedWriter writer = new BufferedWriter(fileWriter)) {
             writer.write(error.toString());
         } catch (IOException e) {
-            System.out.println("Cannot write error to file : " + error.getMessage());
+            logger.log(Level.SEVERE, "Cannot write error to file : " + error.getMessage());
         }
     }
 

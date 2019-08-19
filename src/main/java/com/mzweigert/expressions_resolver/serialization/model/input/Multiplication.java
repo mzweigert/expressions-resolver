@@ -27,10 +27,11 @@ public class Multiplication extends Expression {
         if (factors == null) {
             return Optional.ofNullable(BigDecimal.ONE);
         }
-        return Optional.ofNullable(factors.stream()
+        BigDecimal result = factors.stream()
                 .map(NestedExpression::calculate)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
-                .reduce(BigDecimal.ONE, BigDecimal::multiply));
+                .reduce(BigDecimal.ONE, BigDecimal::multiply);
+        return Optional.ofNullable(result);
     }
 }

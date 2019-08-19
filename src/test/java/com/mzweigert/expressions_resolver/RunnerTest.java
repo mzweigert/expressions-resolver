@@ -1,6 +1,6 @@
 package com.mzweigert.expressions_resolver;
 
-import com.mzweigert.expressions_resolver.service.ExpressionsResolverService;
+import com.mzweigert.expressions_resolver.resolver.ExpressionsResolverService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
