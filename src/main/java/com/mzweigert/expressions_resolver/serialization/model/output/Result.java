@@ -6,6 +6,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlValue;
 import java.math.BigDecimal;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @XmlRootElement(name = "result")
 public class Result extends Expression {
@@ -35,7 +37,7 @@ public class Result extends Expression {
             BigDecimal value = new BigDecimal(this.value).stripTrailingZeros();
             return Optional.of(value);
         } catch (Exception e) {
-            System.out.println("Result is not a number!");
+            Logger.getAnonymousLogger().log(Level.SEVERE, "Result is not a number!");
             return Optional.empty();
         }
     }

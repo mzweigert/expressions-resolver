@@ -1,4 +1,4 @@
-package com.mzweigert.expressions_resolver.service;
+package com.mzweigert.expressions_resolver.resolver;
 
 import com.mzweigert.expressions_resolver.TestUtils;
 import com.mzweigert.expressions_resolver.configuration.Configuration;

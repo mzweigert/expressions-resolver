@@ -1,11 +1,15 @@
 package com.mzweigert.expressions_resolver;
 
 import com.mzweigert.expressions_resolver.serialization.SerializationType;
-import com.mzweigert.expressions_resolver.service.ExpressionsResolverService;
+import com.mzweigert.expressions_resolver.resolver.ExpressionsResolverService;
 
 import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Runner {
+
+    private static final Logger logger = Logger.getAnonymousLogger();
 
     private ExpressionsResolverService expressionsResolverService;
 
@@ -15,7 +19,7 @@ public class Runner {
 
     public static void main(String[] args) {
         if (args.length != 2) {
-            System.out.println("No input and output folders given in args!");
+            logger.log(Level.SEVERE, "No input and output folders given in args!");
         } else {
             ExpressionsResolverService fileIOService = new ExpressionsResolverService();
             new Runner(fileIOService).run(args[0], args[1]);
@@ -44,7 +48,7 @@ public class Runner {
         if (!dir.exists() && createIfNotExists) {
             dir.mkdir();
         } else if (!dir.isDirectory()) {
-            System.out.println(dir.getName() + " is not a folder!");
+            logger.warning(dir.getName() + " is not a folder!");
             return false;
         }
         return true;

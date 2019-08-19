@@ -1,4 +1,4 @@
-package com.mzweigert.expressions_resolver.service;
+package com.mzweigert.expressions_resolver.resolver;
 
 import com.mzweigert.expressions_resolver.configuration.Configuration;
 import com.mzweigert.expressions_resolver.serialization.ExpressionsSerializationService;
@@ -13,9 +13,13 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class ExpressionsResolverService {
+
+    private static final Logger logger = Logger.getAnonymousLogger();
 
     private ExecutorService executorService;
 
@@ -27,7 +31,7 @@ public class ExpressionsResolverService {
     public void resolve(File inputDir, File outputDir, SerializationType type) {
         File[] files = inputDir.listFiles();
         if (files == null || files.length <= 0) {
-            System.out.println("No files in input dir");
+            logger.log(Level.SEVERE, "No files in input directory");
             return;
         }
         ExpressionsSerializationService serializationService =
