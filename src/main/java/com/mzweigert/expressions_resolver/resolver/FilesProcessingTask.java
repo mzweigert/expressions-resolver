@@ -44,7 +44,7 @@ public class FilesProcessingTask implements Runnable {
             serializationService.marshall(results, outputFile.get());
 
         } catch (JAXBException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.warning(e.toString());
             fileManager.saveErrorToFile(e, outputFile.get());
         }
     }

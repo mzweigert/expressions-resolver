@@ -17,6 +17,7 @@ class FileManager {
         try(FileWriter fileWriter = new FileWriter(file);
             BufferedWriter writer = new BufferedWriter(fileWriter)) {
             writer.write(error.toString());
+            writer.flush();
         } catch (IOException e) {
             logger.log(Level.SEVERE, "Cannot write error to file : " + error.getMessage());
         }

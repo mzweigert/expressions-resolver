@@ -37,6 +37,7 @@ public class TestUtilsIT {
             file = new File(dir, toCopy.getName() + "_" + i + ".xml");
             OutputStream os = new FileOutputStream(file);
             Files.copy(Paths.get(toCopy.getPath()), os);
+            os.flush();
             os.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -46,10 +47,22 @@ public class TestUtilsIT {
 
 
     public static void deleteFiles(File dir) {
-        Arrays.stream(Objects.requireNonNull(dir.listFiles()))
+        File[] array = Objects.requireNonNull(dir.listFiles());
+        CountDownLatch latch = new CountDownLatch(array.length);
+        Arrays.stream(array)
                 .parallel()
-                .forEach(File::delete);
-        dir.delete();
+                .forEach(file -> {
+                    while (!file.delete()){
+                        System.out.println("cannot delete file " + file.getName());
+                    }
+                    latch.countDown();
+                });
+        try {
+            latch.await();
+            dir.delete();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public static File loadFileFromResource(String fileName) {
