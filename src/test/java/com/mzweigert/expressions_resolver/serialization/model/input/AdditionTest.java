@@ -1,11 +1,12 @@
 package com.mzweigert.expressions_resolver.serialization.model.input;
 
 import com.mzweigert.expressions_resolver.OperationType;
+import com.mzweigert.expressions_resolver.serialization.model.Expression;
 import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.*;
+import java.util.Optional;
 
 import static com.mzweigert.expressions_resolver.TestUtils.generateComplex;
 import static com.mzweigert.expressions_resolver.TestUtils.generateSimple;
@@ -40,7 +41,7 @@ public class AdditionTest {
                 new BigDecimal("9.5"), new BigDecimal("2.3"));
         // 2.5 * 1.7 = 4.25
         Expression simpleMultiplication = generateSimple(OperationType.MULTIPLICATION,
-                new BigDecimal("2.5"),  new BigDecimal("1.7"));
+                new BigDecimal("2.5"), new BigDecimal("1.7"));
         // 10 / 3 = 3.3(3)
         Expression simpleDivision = generateSimple(OperationType.DIVISION,
                 BigDecimal.TEN, new BigDecimal("3"));

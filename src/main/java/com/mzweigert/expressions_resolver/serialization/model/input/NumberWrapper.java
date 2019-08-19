@@ -1,5 +1,7 @@
 package com.mzweigert.expressions_resolver.serialization.model.input;
 
+import com.mzweigert.expressions_resolver.serialization.model.Expression;
+
 import java.math.BigDecimal;
 import java.util.Optional;
 

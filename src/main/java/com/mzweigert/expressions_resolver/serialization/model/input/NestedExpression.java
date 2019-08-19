@@ -1,5 +1,7 @@
 package com.mzweigert.expressions_resolver.serialization.model.input;
 
+import com.mzweigert.expressions_resolver.serialization.model.Expression;
+
 import javax.xml.bind.annotation.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -42,7 +44,7 @@ public class NestedExpression extends Expression {
         }
         BigDecimal number = null;
         if (o instanceof String) {
-            number = new BigDecimal(o.toString());
+            number = new BigDecimal(o.toString().trim());
         } else if (o instanceof BigDecimal) {
             number = (BigDecimal) o;
         }

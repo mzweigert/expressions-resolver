@@ -1,6 +1,8 @@
 package com.mzweigert.expressions_resolver.service;
 
 import com.mzweigert.expressions_resolver.TestUtils;
+import com.mzweigert.expressions_resolver.configuration.Configuration;
+import com.mzweigert.expressions_resolver.serialization.SerializationType;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,21 +46,25 @@ public class ExpressionsResolverServiceTest {
     @Test
     public void givenEmptyFolder_whenProcess_thenNoAction() {
         //WHEN
-        service.resolve(inputDir, outputDir);
+        service.resolve(inputDir, outputDir, SerializationType.XML);
 
         //THEN
         verifyZeroInteractions(executorService);
     }
 
     @Test
-    public void givenFolderWithFiles_whenProcess_thenSuccessInvokeActions() throws InterruptedException {
+    public void givenFolderWithFiles_whenProcess_thenSuccessInvokeActions() {
         //GIVEN
-        TestUtils.createFiles(inputDir, 100);
+        int nFiles = 100;
+        int filesPerThread = Integer.valueOf(Configuration.getProperty("filesPerThread"));
+        TestUtils.createFiles(inputDir, nFiles);
 
         //WHEN
-        service.resolve(inputDir, outputDir);
+
+        service.resolve(inputDir, outputDir, SerializationType.XML);
 
         //THEN
-        verify(executorService).invokeAll(anyList());
+        verify(executorService, times(nFiles / filesPerThread)).submit(any(Runnable.class));
+        verify(executorService).shutdown();
     }
 }

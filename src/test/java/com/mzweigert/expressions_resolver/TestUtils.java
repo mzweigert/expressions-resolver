@@ -1,5 +1,6 @@
 package com.mzweigert.expressions_resolver;
 
+import com.mzweigert.expressions_resolver.serialization.model.Expression;
 import com.mzweigert.expressions_resolver.serialization.model.input.*;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -52,7 +53,7 @@ public class TestUtils {
                 addition.setItems(items);
                 return addition;
             case SUBTRACTION:
-                if(nested.length < 2) {
+                if (nested.length < 2) {
                     throw new IllegalAccessException("Need 2 values to create subtraction!");
                 }
                 Subtraction subtraction = new Subtraction();
@@ -60,7 +61,7 @@ public class TestUtils {
                 subtraction.setSubtrahend(new NestedExpression(nested[1]));
                 return subtraction;
             case DIVISION:
-                if(nested.length < 2) {
+                if (nested.length < 2) {
                     throw new IllegalAccessException("Need 2 values to create division!");
                 }
                 Division division = new Division();

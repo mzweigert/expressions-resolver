@@ -1,7 +1,9 @@
 package com.mzweigert.expressions_resolver.serialization;
 
 import com.mzweigert.expressions_resolver.TestUtilsIT;
+import com.mzweigert.expressions_resolver.serialization.model.Expression;
 import com.mzweigert.expressions_resolver.serialization.model.input.*;
+import com.mzweigert.expressions_resolver.serialization.xml.XMLExpressionsSerializationService;
 import org.junit.Test;
 
 import java.io.File;
@@ -9,15 +11,25 @@ import java.util.List;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
-public class ExpressionsSerializationIT {
+public class ExpressionsXMLUnmarshallingSerializationIT {
+
+    @Test(expected = ExpressionUnmarshallException.class)
+    public void givenInvalidInput_whenUnmarshall_thenThrowException() throws ExpressionUnmarshallException {
+        //GIVEN
+
+        File file = TestUtilsIT.loadFileFromResource("invalid_input.xml");
+
+        //WHEN
+        new XMLExpressionsSerializationService().unmarshall(file);
+    }
 
     @Test
-    public void givenSimpleAddition_whenUnmarshall_thenSuccessUnmarshalling() {
+    public void givenSimpleAddition_whenUnmarshall_thenSuccessUnmarshalling() throws ExpressionUnmarshallException {
         //GIVEN
         File file = TestUtilsIT.loadFileFromResource("simple_addition.xml");
 
         //WHEN
-        List<Expression> result = new ExpressionsSerialization().unmarshall(file);
+        List<Expression> result = new XMLExpressionsSerializationService().unmarshall(file);
 
         //THEN
         assertThat(result).isNotEmpty();
@@ -29,12 +41,14 @@ public class ExpressionsSerializationIT {
     }
 
     @Test
-    public void givenSimpleSubtraction_whenUnmarshall_thenSuccessUnmarshalling() {
+    public void givenSimpleSubtraction_whenUnmarshall_thenSuccessUnmarshalling() throws ExpressionUnmarshallException {
         //GIVEN
+
+
         File file = TestUtilsIT.loadFileFromResource("simple_subtraction.xml");
 
         //WHEN
-        List<Expression> result = new ExpressionsSerialization().unmarshall(file);
+        List<Expression> result = new XMLExpressionsSerializationService().unmarshall(file);
 
         //THEN
         assertThat(result).isNotEmpty();
@@ -51,12 +65,13 @@ public class ExpressionsSerializationIT {
     }
 
     @Test
-    public void givenSimpleMultiplication_whenUnmarshall_thenSuccessUnmarshalling() {
+    public void givenSimpleMultiplication_whenUnmarshall_thenSuccessUnmarshalling() throws ExpressionUnmarshallException {
         //GIVEN
+
         File file = TestUtilsIT.loadFileFromResource("simple_multiplication.xml");
 
         //WHEN
-        List<Expression> result = new ExpressionsSerialization().unmarshall(file);
+        List<Expression> result = new XMLExpressionsSerializationService().unmarshall(file);
 
         //THEN
         assertThat(result).isNotEmpty();
@@ -69,12 +84,13 @@ public class ExpressionsSerializationIT {
 
 
     @Test
-    public void givenSimpleDivision_whenUnmarshall_thenSuccessUnmarshalling() {
+    public void givenSimpleDivision_whenUnmarshall_thenSuccessUnmarshalling() throws ExpressionUnmarshallException {
         //GIVEN
+
         File file = TestUtilsIT.loadFileFromResource("simple_division.xml");
 
         //WHEN
-        List<Expression> result = new ExpressionsSerialization().unmarshall(file);
+        List<Expression> result = new XMLExpressionsSerializationService().unmarshall(file);
 
         //THEN
         assertThat(result).isNotEmpty();
@@ -92,12 +108,12 @@ public class ExpressionsSerializationIT {
 
 
     @Test
-    public void givenSimpleMixed_whenUnmarshall_thenSuccessUnmarshalling() {
+    public void givenSimpleMixed_whenUnmarshall_thenSuccessUnmarshalling() throws ExpressionUnmarshallException {
         //GIVEN
         File file = TestUtilsIT.loadFileFromResource("simple_mixed.xml");
 
         //WHEN
-        List<Expression> result = new ExpressionsSerialization().unmarshall(file);
+        List<Expression> result = new XMLExpressionsSerializationService().unmarshall(file);
 
         //THEN
         assertThat(result).isNotEmpty();
@@ -110,12 +126,13 @@ public class ExpressionsSerializationIT {
     }
 
     @Test
-    public void givenComplexMixedExpressions_whenUnmarshall_thenSuccessUnmarshalling() {
+    public void givenComplexMixedExpressions_whenUnmarshall_thenSuccessUnmarshalling() throws ExpressionUnmarshallException {
         //GIVEN
+
         File file = TestUtilsIT.loadFileFromResource("complex_mixed_expressions.xml");
 
         //WHEN
-        List<Expression> result = new ExpressionsSerialization().unmarshall(file);
+        List<Expression> result = new XMLExpressionsSerializationService().unmarshall(file);
 
         //THEN
         assertThat(result).isNotEmpty();
