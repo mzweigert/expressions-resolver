@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <expressions>
-    <division id="4">
-        <dividend>6.241</dividend>
+    <division>
+        <dividend>54</dividend>
         <divisor>3.512</divisor>
     </division>
 </expressions>

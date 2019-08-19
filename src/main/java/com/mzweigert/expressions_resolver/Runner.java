@@ -1,5 +1,6 @@
 package com.mzweigert.expressions_resolver;
 
+import com.mzweigert.expressions_resolver.serialization.SerializationType;
 import com.mzweigert.expressions_resolver.service.ExpressionsResolverService;
 
 import java.io.File;
@@ -28,9 +29,15 @@ public class Runner {
         File outputDir = new File(outputFolder);
         boolean outputDirValid = checkDirectory(outputDir, true);
 
+        SerializationType type = getSerializationType();
+
         if (inputDirValid && outputDirValid) {
-            expressionsResolverService.resolve(inputDir, outputDir);
+            expressionsResolverService.resolve(inputDir, outputDir, type);
         }
+    }
+
+    private SerializationType getSerializationType() {
+        return SerializationType.XML;
     }
 
     private boolean checkDirectory(File dir, boolean createIfNotExists) {

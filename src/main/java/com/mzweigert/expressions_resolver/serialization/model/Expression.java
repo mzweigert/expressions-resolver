@@ -1,4 +1,4 @@
-package com.mzweigert.expressions_resolver.serialization.model.input;
+package com.mzweigert.expressions_resolver.serialization.model;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
@@ -18,6 +18,16 @@ public abstract class Expression implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String calculateAsString() {
+        try {
+            Optional<BigDecimal> result = this.calculate();
+            return result.isPresent() ? result.get().toString() : "Result is empty";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Cannot calculate result. An error has occurred : " + e.getMessage();
+        }
     }
 
     public abstract Optional<BigDecimal> calculate();

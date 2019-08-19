@@ -1,7 +1,7 @@
 package com.mzweigert.expressions_resolver.serialization.model.input;
 
 import com.mzweigert.expressions_resolver.OperationType;
-import org.assertj.core.data.Percentage;
+import com.mzweigert.expressions_resolver.serialization.model.Expression;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -11,7 +11,6 @@ import java.util.Optional;
 import static com.mzweigert.expressions_resolver.TestUtils.generateComplex;
 import static com.mzweigert.expressions_resolver.TestUtils.generateSimple;
 import static org.assertj.core.api.Java6Assertions.assertThat;
-import static org.junit.Assert.*;
 
 public class SubtractionTest {
 
@@ -38,7 +37,7 @@ public class SubtractionTest {
 
         // 2.51 * 1.23 = 3.0873
         Expression simpleMultiplication = generateSimple(OperationType.MULTIPLICATION,
-                new BigDecimal("2.51"),  new BigDecimal("1.23"));
+                new BigDecimal("2.51"), new BigDecimal("1.23"));
 
         // 3.3(3) - 3.0873 = 0.24603(3) ~ 0.24
         BigDecimal expected = new BigDecimal("0.24");

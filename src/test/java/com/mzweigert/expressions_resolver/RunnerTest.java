@@ -67,7 +67,7 @@ public class RunnerTest {
         runner.run(inputDir, outputDir);
 
         //THEN
-        verify(expressionsResolverService).resolve(any(), any());
+        verify(expressionsResolverService).resolve(any(), any(), any());
     }
 
     @Test
@@ -79,6 +79,6 @@ public class RunnerTest {
         runner.run(inputDir, outputDir);
 
         //THEN
-        verify(expressionsResolverService).resolve(any(), any());
+        verify(expressionsResolverService).resolve(any(), any(), any());
     }
 }

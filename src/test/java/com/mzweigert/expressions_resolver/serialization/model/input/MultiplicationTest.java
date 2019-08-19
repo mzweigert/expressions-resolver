@@ -1,6 +1,7 @@
 package com.mzweigert.expressions_resolver.serialization.model.input;
 
 import com.mzweigert.expressions_resolver.OperationType;
+import com.mzweigert.expressions_resolver.serialization.model.Expression;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -10,7 +11,6 @@ import java.util.Optional;
 import static com.mzweigert.expressions_resolver.TestUtils.generateComplex;
 import static com.mzweigert.expressions_resolver.TestUtils.generateSimple;
 import static org.assertj.core.api.Java6Assertions.assertThat;
-import static org.junit.Assert.*;
 
 public class MultiplicationTest {
 
@@ -40,7 +40,7 @@ public class MultiplicationTest {
                 new BigDecimal("9.5"), new BigDecimal("2.3"));
         // 2.5 * 1.7 = 4.25
         Expression simpleMultiplication = generateSimple(OperationType.MULTIPLICATION,
-                new BigDecimal("2.5"),  new BigDecimal("1.7"));
+                new BigDecimal("2.5"), new BigDecimal("1.7"));
         // 10 / 3 = 3.3(3)
         Expression simpleDivision = generateSimple(OperationType.DIVISION,
                 BigDecimal.TEN, new BigDecimal("3"));
