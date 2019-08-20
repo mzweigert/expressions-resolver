@@ -47,7 +47,7 @@ public class FilesProcessingTaskTest {
         Collection<File> files = TestUtils.createFiles(inputDir, filesSize);
 
         //WHEN
-        new FilesProcessingTask(files, outputDir, serializationService).run();
+        new FilesProcessingTask(files, outputDir, serializationService).call();
 
         //THEN
         assertThat(outputDir.listFiles()).isNotNull();

@@ -1,5 +1,6 @@
 package com.mzweigert.expressions_resolver.resolver;
 
+import com.mzweigert.expressions_resolver.configuration.FileManager;
 import com.mzweigert.expressions_resolver.serialization.ExpressionUnmarshallException;
 import com.mzweigert.expressions_resolver.serialization.ExpressionsSerializationService;
 import com.mzweigert.expressions_resolver.serialization.model.Expression;
@@ -7,11 +8,11 @@ import com.mzweigert.expressions_resolver.serialization.model.Expression;
 import javax.xml.bind.JAXBException;
 import java.io.File;
 import java.util.*;
-import java.util.logging.Level;
+import java.util.concurrent.Callable;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-public class FilesProcessingTask implements Runnable {
+public class FilesProcessingTask implements Callable<FilesProcessingTaskResult> {
 
     private static final Logger logger = Logger.getAnonymousLogger();
 
@@ -28,24 +29,40 @@ public class FilesProcessingTask implements Runnable {
         this.fileManager = new FileManager();
     }
 
-    @Override
-    public void run() {
-        filesToProcess.forEach(this::processInput);
+    private enum ProcessResult {
+        SUCCESS,
+        FAIL
     }
 
-    private void processInput(File toProcess) {
-        Optional<File> outputFile = fileManager.createOutputFile(outputDir, toProcess.getName());
-        if(!outputFile.isPresent()) {
-            return;
-        }
+    @Override
+    public FilesProcessingTaskResult call() {
+        Collection<File> successProcessedFiles = new HashSet<>();
+        Collection<File> failedProcessedFiles = new HashSet<>();
+        filesToProcess.forEach(file -> {
+            Optional<File> outputFile = fileManager.createOutputFile(outputDir, file.getName());
+            if(!outputFile.isPresent()) {
+                return;
+            }
+            ProcessResult processResult = processInput(file, outputFile.get());
+            if(processResult == ProcessResult.SUCCESS) {
+                successProcessedFiles.add(file);
+            } else {
+                failedProcessedFiles.add(file);
+            }
+        });
+        return new FilesProcessingTaskResult(successProcessedFiles, failedProcessedFiles);
+    }
+
+    private ProcessResult processInput(File file, File outputFile) {
         Map<Long, String> results;
         try {
-            results = calculateResults(toProcess);
-            serializationService.marshall(results, outputFile.get());
-
+            results = calculateResults(file);
+            serializationService.marshall(results, outputFile);
+            return ProcessResult.SUCCESS;
         } catch (JAXBException e) {
             logger.warning(e.toString());
-            fileManager.saveErrorToFile(e, outputFile.get());
+            fileManager.saveErrorToFile(e, outputFile);
+            return ProcessResult.FAIL;
         }
     }
 

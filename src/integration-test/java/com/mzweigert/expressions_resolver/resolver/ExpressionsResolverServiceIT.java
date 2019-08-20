@@ -10,6 +10,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
@@ -22,7 +23,7 @@ public class ExpressionsResolverServiceIT {
 
     @Before
     public void setUp() {
-        inputDir = new File("input_test");
+        inputDir = new File("input_test_1");
         inputDir.mkdir();
         outputDir = new File("output_test");
         outputDir.mkdir();
@@ -44,11 +45,14 @@ public class ExpressionsResolverServiceIT {
         xmlFiles.forEach(file -> TestUtilsIT.copyFile(inputDir, file, 1));
 
 
-        service.resolve(inputDir, outputDir, SerializationType.XML);
+        Optional<FilesProcessingTaskResult> result = service.resolve(inputDir, outputDir, SerializationType.XML);
 
         File[] outputFiles = outputDir.listFiles();
         assertThat(outputFiles).isNotEmpty();
         assertThat(outputFiles).hasSize(xmlFiles.size());
+        assertThat(result.isPresent()).isTrue();
+        assertThat(result.get().getSuccessProcessedFilesSize()).isEqualTo(outputFiles.length - 1);
+        assertThat(result.get().getFailProcessedFilesSize()).isEqualTo(1);
     }
 
     @Test
@@ -58,10 +62,12 @@ public class ExpressionsResolverServiceIT {
         int filesSize = 2000;
         TestUtilsIT.copyFile(inputDir, toCopy, filesSize);
 
-        service.resolve(inputDir, outputDir, SerializationType.XML);
+        Optional<FilesProcessingTaskResult> result = service.resolve(inputDir, outputDir, SerializationType.XML);
 
         File[] outputFiles = outputDir.listFiles();
         assertThat(outputFiles).isNotEmpty();
         assertThat(outputFiles).hasSize(filesSize);
+        assertThat(result.isPresent()).isTrue();
+        assertThat(result.get().getSuccessProcessedFilesSize()).isEqualTo(outputFiles.length);
     }
 }
