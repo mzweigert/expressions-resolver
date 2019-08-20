@@ -23,7 +23,7 @@ public class ExpressionsResolverServiceIT {
 
     @Before
     public void setUp() {
-        inputDir = new File("input_test_1");
+        inputDir = new File("input_test");
         inputDir.mkdir();
         outputDir = new File("output_test");
         outputDir.mkdir();
@@ -59,7 +59,7 @@ public class ExpressionsResolverServiceIT {
     public void resolveManyXMLFiles() {
         String file = getClass().getClassLoader().getResource("very_complex_expressions.xml").getFile();
         File toCopy = new File(file);
-        int filesSize = 2000;
+        int filesSize = 200;
         TestUtilsIT.copyFile(inputDir, toCopy, filesSize);
 
         Optional<FilesProcessingTaskResult> result = service.resolve(inputDir, outputDir, SerializationType.XML);
