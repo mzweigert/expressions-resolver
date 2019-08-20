@@ -20,7 +20,7 @@ import javax.xml.stream.XMLStreamReader;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
-import java.io.File;
+import java.io.*;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
@@ -98,13 +98,13 @@ public class XMLExpressionsSerializationService implements ExpressionsSerializat
 
     @Override
     public List<Expression> unmarshall(File file) throws ExpressionUnmarshallException {
-        try {
+        try (FileInputStream inputStream = new FileInputStream(file)) {
             XMLInputFactory xif = XMLInputFactory.newFactory();
-            XMLStreamReader xsr = xif.createXMLStreamReader(new StreamSource(file));
+            XMLStreamReader xsr = xif.createXMLStreamReader(new StreamSource(inputStream));
             xsr = xif.createFilteredReader(xsr, this::filterStream);
             Expressions result = (Expressions) unmarshaller.get().unmarshal(xsr);
             return result.getExpressions();
-        } catch (JAXBException | XMLStreamException e) {
+        } catch (JAXBException | XMLStreamException | IOException e) {
             throw new ExpressionUnmarshallException(e);
         }
     }
@@ -124,9 +124,9 @@ public class XMLExpressionsSerializationService implements ExpressionsSerializat
                 .collect(Collectors.toList());
         Expressions expressions = new Expressions();
         expressions.setExpressions(results);
-        try {
-            marshaller.get().marshal(expressions, outputFile);
-        } catch (JAXBException e) {
+        try (FileOutputStream inputStream = new FileOutputStream(outputFile)) {
+            marshaller.get().marshal(expressions, inputStream);
+        } catch (JAXBException | IOException e) {
             throw new ExpressionMarshallException(e);
         }
     }
