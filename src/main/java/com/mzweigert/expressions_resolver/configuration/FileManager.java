@@ -31,7 +31,7 @@ public class FileManager {
         String outputFileName = inputFileName.substring(0, dotIndex) + "_result" + inputFileName.substring(dotIndex);
         File outputFile = new File(outputDir, outputFileName);
         try {
-            if (outputFile.createNewFile()) {
+            if(outputFile.exists() || outputFile.createNewFile()){
                 return Optional.of(outputFile);
             }
         } catch (IOException e) {
