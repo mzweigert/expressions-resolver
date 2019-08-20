@@ -13,6 +13,7 @@ import org.mockito.internal.util.reflection.Whitebox;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.io.File;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 
 import static org.mockito.Mockito.*;
@@ -53,10 +54,9 @@ public class ExpressionsResolverServiceTest {
     }
 
     @Test
-    public void givenFolderWithFiles_whenProcess_thenSuccessInvokeActions() {
+    public void givenFolderWithFiles_whenProcess_thenSuccessInvokeActions() throws InterruptedException {
         //GIVEN
         int nFiles = 100;
-        int filesPerThread = Integer.valueOf(Configuration.getProperty("filesPerThread"));
         TestUtils.createFiles(inputDir, nFiles);
 
         //WHEN
@@ -64,7 +64,7 @@ public class ExpressionsResolverServiceTest {
         service.resolve(inputDir, outputDir, SerializationType.XML);
 
         //THEN
-        verify(executorService, times(nFiles / filesPerThread)).submit(any(Runnable.class));
+        verify(executorService).invokeAll(anyList());
         verify(executorService).shutdown();
     }
 }
