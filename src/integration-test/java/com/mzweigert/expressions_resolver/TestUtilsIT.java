@@ -34,7 +34,10 @@ public class TestUtilsIT {
     public static File createFile(File dir, File toCopy, int i) {
         File file = null;
         try {
-            file = new File(dir, toCopy.getName() + "_" + i + ".xml");
+            String name = toCopy.getName();
+            int dotIndex = name.lastIndexOf('.');
+            String outputFileName = name.substring(0, dotIndex) + "_" + i + name.substring(dotIndex);
+            file = new File(dir, outputFileName);
             OutputStream os = new FileOutputStream(file);
             Files.copy(Paths.get(toCopy.getPath()), os);
             os.flush();

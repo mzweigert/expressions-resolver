@@ -8,6 +8,10 @@ import com.mzweigert.expressions_resolver.serialization.SerializationType;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -28,30 +32,58 @@ public class ExpressionsResolverService {
         this.executorService = Executors.newWorkStealingPool(workers);
     }
 
-    public void resolve(File inputDir, File outputDir, SerializationType type) {
+    public Optional<FilesProcessingTaskResult> resolve(File inputDir, File outputDir, SerializationType type) {
         File[] files = inputDir.listFiles();
         if (files == null || files.length <= 0) {
             logger.log(Level.SEVERE, "No files in input directory");
-            return;
+            return Optional.empty();
         }
-        ExpressionsSerializationService serializationService =
-                ExpressionsSerializationServiceFactory.getInstance(type);
-        createFilesProcessingTasks(files, outputDir, serializationService)
-                .stream()
-                .map(task -> executorService.submit(task))
-                .forEach(this::safeFutureGet);
+        ExpressionsSerializationService serializationService = ExpressionsSerializationServiceFactory.getInstance(type);
+        Collection<FilesProcessingTask> filesProcessingTasks = createFilesProcessingTasks(files, outputDir, serializationService);
+
+        FilesProcessingTaskResult single = null;
+        try {
+            List<FilesProcessingTaskResult> results = extractResults(filesProcessingTasks);
+            single = createSingle(results);
+
+        } catch (InterruptedException e) {
+            logger.log(Level.SEVERE, "Something gone wrong with processing files... \n" + e.toString());
+            e.printStackTrace();
+        }
         executorService.shutdown();
+        return Optional.ofNullable(single);
     }
 
-    private void safeFutureGet(Future<?> future) {
+    private List<FilesProcessingTaskResult> extractResults(Collection<FilesProcessingTask> filesProcessingTasks) throws InterruptedException {
+        return executorService.invokeAll(filesProcessingTasks)
+            .stream()
+            .map(this::safeFutureGet)
+            .filter(Objects::nonNull)
+            .collect(Collectors.toList());
+    }
+
+    private FilesProcessingTaskResult createSingle(List<FilesProcessingTaskResult> results) {
+        Collection<File> allSuccessProcessedFiles = new HashSet<>();
+        Collection<File> allFailedProcessedFiles = new HashSet<>();
+
+        for (FilesProcessingTaskResult result : results) {
+            allFailedProcessedFiles.addAll(result.getFailProcessedFiles());
+            allSuccessProcessedFiles.addAll(result.getSuccessProcessedFiles());
+        }
+
+        return new FilesProcessingTaskResult(allSuccessProcessedFiles, allFailedProcessedFiles);
+    }
+
+    private FilesProcessingTaskResult safeFutureGet(Future<FilesProcessingTaskResult> future) {
         if (future == null) {
-            return;
+            return null;
         }
         try {
-            future.get();
+            return future.get();
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     private Collection<FilesProcessingTask> createFilesProcessingTasks(File[] files, File outputDir,
