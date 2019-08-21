@@ -16,7 +16,7 @@ Make sure, that you have installed maven and java, then in project root folder t
 
 ## How to run expressions resolver
 
-usage: (Windows: expressions_resolver | Linux/Unix: ./expressions_resolver.sh) <path to input folder> <path to output folder>
+usage: (Windows: `expressions_resolver` | Linux/Unix: `./expressions_resolver.sh` ) `<path to input folder>` `<path to output folder>`
 <pre>
  &lt;path to input folder&gt; – the folder where input files are located
  &lt;path to output folder&gt; – the folder where results should be stored 
